@@ -25,6 +25,39 @@ docker run -it ubuntu
 docker run --name ubuntu-16.04 -w /user/psyoblade -v `pwd`/host-volume:/user/psyoblade -it ubuntu:16.04
 # -v {host-dir}:{guest-dir} 옵션으로 연결할 수 있고, --read-only 옵션으로 읽기 전용으로 연결할 수 있으며, -v 옵션을 연속으로 붙여쓸 수 있다
 ```
+#### 도커 파일 내 명령어
+* FROM → 태깅된 이미지로 부터 생성
+* WORKDIR → 컨테이너에서 실행 시에 현재 경로를 지정
+* COPY → 호스트 현재 위치에서 컨테이너로 복사
+* RUN → 컨테이너 내부에서 실행될 명령어
+* EXPOSE → 런타임 시에 리스닝 하고 있는 포트 목록을 노출
+* CMD → 이 이미지를 실행하는 데에 사용되는 명령어를 알림
+
+#### 도커 이미지 생성
+* build → 도커 이미지 생성
+  * docker build --tag bulletinboard:1.0 .
+* run → 도커 컨테이너 실행
+  * docker run --publish 8000:8080 --detach --name bb bulletinboard:1.0
+* rm → 도커 컨테이너 삭제
+  * docker rm --force bb # 종료와 삭제를 동시에
+  
+#### 도커 컴포즈 생성
+* up → 도커 이미지 생성 후 포그라운드 상태로 컨테이너를 띄웁니다
+  * docker-compose -f docker-compose.yml up
+  * CTRL+C to quit : 이 때에 컨테이너도 종료됩니다
+* cat docker-compose.yml
+```yml
+        version: "3"
+        services:
+            web:
+                image: "compose-test:1.0"
+                build: .
+                ports:
+                    - "5000:5000"
+            redis:
+                image: "redis:alpine"
+```
+  
 
 ### 4. 도커 컨테이너 멈추지 않고 빠져나오는 방법 → Ctrl+P + Ctrl+Q
 ```bash
@@ -131,6 +164,14 @@ docker run \
    --name=cadvisor \
 google/cadvisor:latest
 ```
+
+### 10. 도커 관련 궁금한 점들
+1. COPY 명령어가 현재 build 하는 pwd 에 존재하는 파일을 그대로 복사하는 구조가 아닌가?
+    > COPY the file package.json from your host to the present location (.) in your image (so in this case, to /usr/src/app/package.json)
+2. 임의의 파일이 변경되었을 때에 COPY 명령어가 변경 된 파일이 적용이 되는가?
+    > 해당 컨테이너 아이디가 변경되어야 새로 생성된 이미지가 적용되므로, 반드시  rm 명령어로 컨테이너 종료 후 다시 run 해야만 적용됩니다
+3. docker 와 docker-compose 를 통한 방식의 차이가 있는가?
+    > 차이가 없으며 변경된 경우에는 반드시 docker build 명령을 통해 다시 해야만 합니다
 
 
 ## 볼륨 컨테이너를 통한 MySQL 컨테이너 생성
