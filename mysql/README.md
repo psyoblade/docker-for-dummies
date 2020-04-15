@@ -174,6 +174,25 @@ google/cadvisor:latest
     > 차이가 없으며 변경된 경우에는 반드시 docker build 명령을 통해 다시 해야만 합니다
 
 
+### 11. 컨테이너 네트워크 설정을 통한 컨테이너간 연결
+```bash
+docker network create sqoop-mysql
+
+cd /Users/psyoblade/git/psyoblade/docker-for-dummies/mysql
+export MYSQL_OPTS="MYSQL_ALLOW_EMPTY_PASSWORD=yes"
+docker run -dit --rm --name mysql --network=sqoop-mysql -v `pwd`/data/mysql:/var/lib/mysql -e $MYSQL_OPTS mysql:5.7
+
+cd /Users/psyoblade/git/psyoblade/docker-sqoop
+docker run -dit --rm --name sqoop --network=sqoop-mysql -v `pwd`/jars:/usr/local/sqoop/jars -v `pwd`/target:/tmp/sqoop dvoros/sqoop-hive:2.3.3
+
+docker exec -it sqoop bash
+cp jars/mysql-connector-java-8.0.19.jar lib
+bin/sqoop import -fs local -jt local -m 1 --driver com.mysql.jdbc.Driver --connect jdbc:mysql://mysql:3306/psyoblade --table users --target-dir /tmp/sqoop/t1 --verbose --username root --relaxed-isolation
+cat /tmp/sqoop/t1/part-m-00000
+```
+
+
+
 ## 볼륨 컨테이너를 통한 MySQL 컨테이너 생성
 > 굳이 별도로 빌드하지 않아도 영속성있는 저장소를 볼륨으로 지정하여 사용할 수 있습니다
 
@@ -212,3 +231,4 @@ docker run -d --rm --name mysql -e "MYSQL_ALLOW_EMPTY_PASSWORD=yes" --volumes-fr
 ```bash
 docker run -v `pwd`/mongo-volume:/data/db mongo
 ```
+
