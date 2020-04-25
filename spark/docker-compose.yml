@@ -1,0 +1,17 @@
+version: '3'
+services:
+  all-spark-notebook:
+    user: root
+    privileged: true
+    image: psyoblade/all-spark-notebook
+    restart: always
+    volumes:
+      - ./notebooks:/home/jovyan/work
+      - $HOME/.aws/credentials:/home/jovyan/.aws/credentials:ro
+      - $HOME/.aws/config:/home/jovyan/.aws/config:ro
+    environment:
+      - GRANT_SUDO=yes
+    ports:
+      - "8888:8888"
+      - "4040:4040"
+      - "4041:4041"
