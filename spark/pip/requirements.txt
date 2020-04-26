@@ -1,9 +1,0 @@
-boto3
-scrapy
-selenium
-mrjob
-pyspark
-pyarrow
-nltk
-jupyter_contrib_nbextensions
-jupyter_nbextensions_configurator
