@@ -102,6 +102,54 @@
         	--connect jdbc:mysql://mysql:3306/psyoblade \
         	--username root \
         	--table users \
-          --split-by id \
+            --split-by id \
         	--target-dir /tmp/sqoop/t3
+```
+
+### 5. 도커 명령을 통해 테이블 수집 (Airflow)
+* 아래와 같이 실행할 수 있으나, Docker Airflow 상에서는 외부 Container 접근이 안 되기 때문에 호스트 장비에 설치된 Airflow 에서만 실행이 가능하다는 단점이 있다
+* 다만, Sqoop 3.0 으로 설치한다면 API 호출로 가능할 것이므로 Container 간에 액세스가 가능할 것으로 판단된다
+```python
+from airflow.models import DAG
+from airflow.utils.dates import days_ago
+from airflow.operators.bash_operator import BashOperator
+
+import pendulum
+from datetime import datetime
+
+local_tz = pendulum.timezone("Asia/Seoul")
+
+
+args = {
+    'owner': 'psyoblade',
+    'depends_on_past': False,
+    'start_date': datetime(2020, 4, 10, tzinfo=local_tz),
+    'retries': 1,
+    'catchup': False
+    }
+
+dag = DAG(
+    dag_id='bash-sqoop',
+    default_args=args,
+    schedule_interval='* 1 * * *'
+    )
+
+
+from datetime import datetime
+basedate = datetime.today().strftime('%Y%m%d')
+sqoop_import = """docker exec -it sqoop /usr/local/sqoop/bin/sqoop import -fs local -jt local -m 1 --driver com.mysql.jdbc.Driver --connect jdbc:mysql://mysql:3306/psyoblade --table users --target-dir /usr/local/sqoop/ target/%s/users --username root""" % basedate
+
+t1 = BashOperator(task_id='print_date',
+                    bash_command='date',
+                    dag=dag)
+
+t2 = BashOperator(task_id='sqoop_import',
+                    bash_command=sqoop_import,
+                    dag=dag)
+
+t3 = BashOperator(task_id='print_whoami',
+                    bash_command='whoami',
+                    dag=dag)
+
+t1 >> t2 >> t3
 ```
