@@ -637,12 +637,6 @@
     ## port=
     ## user=
     ## password=
-    engine=mysql
-    host=mysql_server
-    port=3306
-    user=hue
-    password=hue
-    name=hue
     # conn_max_age option to make database connection persistent value in seconds
     # https://docs.djangoproject.com/en/1.11/ref/databases/#persistent-connections
     ## conn_max_age=0
@@ -1185,7 +1179,6 @@
   # Host where HiveServer2 is running.
   # If Kerberos security is enabled, use fully-qualified domain name (FQDN).
   ## hive_server_host=localhost
-  hive_server_host=hive_server
 
   # Binary thrift port for HiveServer2.
   ## hive_server_port=10000
@@ -1233,7 +1226,6 @@
   # Host where Hive Metastore Server (HMS) is running.
   # If Kerberos security is enabled, the fully-qualified domain name (FQDN) is required.
   ## hive_metastore_host=localhost
-  hive_metastore_host=hive_server
 
   # Configure the port the Hive Metastore Server runs on.
   ## hive_metastore_port=9083
@@ -1279,7 +1271,6 @@
   # Thrift version to use when communicating with HiveServer2.
   # Version 11 comes with Hive 3.0. If issues, try 7.
   ## thrift_version=11
-  thrift_version=7
 
   # A comma-separated list of white-listed Hive configuration properties that users are authorized to set.
   ## config_whitelist=hive.map.aggr,hive.exec.compress.output,hive.exec.parallel,hive.execution.engine,mapreduce.job.queuename
