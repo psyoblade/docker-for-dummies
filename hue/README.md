@@ -70,16 +70,23 @@ $ docker network connect hue_network mysql_server
 
 ## 트러블슈팅
 > 설치 시에 발생했던 다양한 문제점들
+
 ### 1. Could not connect to localhost:10000
-> 별도의 컨테이너에 존재하므로, 도커 네트워크 생성 및 연동 후, hive-site.xml 및 hue.ini 설정 변경
+* 별도의 컨테이너에 존재하므로, 도커 네트워크 생성 및 연동 후, hive-site.xml 및 hue.ini 설정 변경
 ### 2.  Thrift version configured by property thrift\_version might be too high
-> hue.ini 설정에서 thrift\_version=7 로 변경
+* hue.ini 설정에서 thrift\_version=7 로 변경
 ### 3. Failed to open new session: Permission denied: user=admin, access=EXECUTE, inode="/tmp":root:supergroup:drwxrwx---
-> 도커의 /tmp 경로 권한 오류이므로 최초 로그인 시에 root 로 계정 생성
+* 도커의 /tmp 경로 권한 오류이므로 최초 로그인 시에 root 로 계정 생성
 ### 4. Resource Manager not available, trying another RM: YARN RM returned a failed response
-> RM 연동을 안해서 발생하는 문제이므로 추후 연결
+* RM 연동을 안해서 발생하는 문제이므로 추후 연결
 ### 5. Autocomplete data fetching error: database is locked
-> sqlite 를 사용하는 경우 multi-threaded 문제에 의한 것으로 msyql 로 변경
+* sqlite 를 사용하는 경우 multi-threaded 문제에 의한 것으로 msyql 로 변경
 * [https://dev.mysql.com/doc/refman/8.0/en/create-user.html](https://dev.mysql.com/doc/refman/8.0/en/create-user.html)
 * [https://docs.cloudera.com/documentation/enterprise/6/latest/topics/hue_dbs_mysql.html#hue_dbs_mysql](https://docs.cloudera.com/documentation/enterprise/6/latest/topics/hue_dbs_mysql.html#hue_dbs_mysql)
 
+
+## 참고 링크
+* https://hub.docker.com/r/gethue
+* https://gethue.com/hue-in-docker/
+* https://github.com/dvoros/docker-hive
+* https://gethue.com/getting-started-with-hue-in-2-minutes-with-docker/
