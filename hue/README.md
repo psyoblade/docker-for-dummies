@@ -62,7 +62,7 @@ $ docker cp hue_server:/usr/share/hue/desktop/conf/hue.ini hue/conf
 ```bash
 $ docker network create hue_network
 $ docker run --name mysql_server --network=hue_network -e "MYSQL_ALLOW_EMPTY_PASSWORD=yes" -v `pwd`/data/mysql:/var/lib/mysql -dit mysql
-$ docker run --name hive_server --network=hue_network -v `pwd`/hive/data:/tmp/data -dit dvoros/hive
+$ docker run --name hive_server --network=hue_network -v `pwd`/data:/tmp/data -dit dvoros/hive
 $ docker run --name hue_server --network=hue_network -p 8000:8888 -v `pwd`/hue/conf/hue.ini:/usr/share/hue/desktop/conf/z-hue.ini -it gethue/hue
 ```
 * 네트워크 추가를 깜빡했다면 아래와 같이 추가합니다
