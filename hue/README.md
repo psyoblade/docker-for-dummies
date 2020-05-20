@@ -154,3 +154,29 @@ java -jar ./parquet-tools-<VERSION>.jar --help
 * https://github.com/apache/parquet-mr/tree/master/parquet-tools
 * https://github.com/Teradata/kylo/tree/master/samples/sample-data/parquet
 
+
+
+## III. 도커 컴포즈를 통한 배포
+> 기존의 이미지들을 올리기에는 매번 명령어를 직접 수정해야 하거나 개별 컨테이너를 컨트롤하기에 귀찮았을텐데 도커 컴포즈를 이용해서 의존성 및 모든 컨테이너를 한 번에 생성 및 기동을 할수 있습니다
+* 기존의 hue.ini 파일에서 컴포즈를 사용하는 경우 시퀀스가 붙기 때문에 호스트 명을 변경해 주어야만 합니다
+```bash
+...
+  host=hue_mysql_1
+  hive_server_host=hue_hive_1
+  hive_metastore_host=hue_hive_1
+...
+```
+* 기존에 생성된 네트워크를 사용하는 경우에는 external networks 연결을 해줄 수 있다 (기본 ingress 네트워크가 생성되므로 굳이 쓸 필요는 없다)
+```yml
+services:
+	mysql:
+		networks:
+			- hue_network
+networks:
+    hue_network:
+        external: true
+```
+* 환경변수를 지정하여 bind volume 의 경우에도 전체경로를 docker-compose.yml 파일에 포함하지 않아도 됩니다
+```bash
+export PROJECT_HOME=`pwd` ; docker-compose up
+```
