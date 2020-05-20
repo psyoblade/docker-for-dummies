@@ -169,9 +169,9 @@ java -jar ./parquet-tools-<VERSION>.jar --help
 * 기존에 생성된 네트워크를 사용하는 경우에는 external networks 연결을 해줄 수 있다 (기본 ingress 네트워크가 생성되므로 굳이 쓸 필요는 없다)
 ```yml
 services:
-	mysql:
-		networks:
-			- hue_network
+    mysql:
+        networks:
+            - hue_network
 networks:
     hue_network:
         external: true
