@@ -1,0 +1,14 @@
+version: '3.3'
+
+services:
+    hive:
+        image: dvoros/hive
+        networks:
+            - hue_network
+        volumes:
+            - /Users/psyoblade/git/psyoblade/docker-for-dummies/hive/data:/tmp/data
+        tty: true
+
+networks:
+    hue_network:
+        external: true

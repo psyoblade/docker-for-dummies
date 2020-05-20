@@ -1,0 +1,49 @@
+version: '3.3'
+
+services:
+    mysql:
+        image: mysql:5.7
+        restart: always
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: hue
+            MYSQL_USER: hue
+            MYSQL_PASSWORD: hue
+        networks:
+            - hue_network
+        expose:
+            - '3306'
+        ports:
+            - '3306:3306'
+        volumes:
+            - mysql_data:/var/lib/mysql
+    hive:
+        image: dvoros/hive
+        depends_on:
+            - mysql
+        networks:
+            - hue_network
+        tty: true
+        volumes:
+            - /Users/psyoblade/git/psyoblade/docker-for-dummies/hive/data:/tmp/data
+    hue:
+        image: gethue/hue
+        depends_on:
+            - mysql
+            - hive
+        networks:
+            - hue_network
+        expose:
+            - '8888'
+        ports:
+            - '8888:8888'
+        volumes:
+            - /Users/psyoblade/git/psyoblade/docker-for-dummies/hue/hue/conf/hue.ini:/usr/share/hue/desktop/conf/z-hue.ini:ro
+            - /Users/psyoblade/git/psyoblade/docker-for-dummies/hue/hive/conf:/etc/hive/conf:ro
+
+volumes:
+    mysql_data: {}
+
+networks:
+    hue_network:
+        external: true

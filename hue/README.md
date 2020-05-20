@@ -21,12 +21,12 @@ mysql> show databases;
 ```
 
 ### 2. 휴(Hue) 및 하이브 초기 환경 구성
-> Hive hive-site.xml 파일을 로컬에 복사하고, Hue hue.ini 파일을 수정합니다. 일부 포트가 충돌나는 경우는 -p 옵션으로 회피합니다
+> Hive hive-site.xml 파일을 로컬에 복사하고, Hue hue.ini 파일을 수정합니다. 일부 포트가 충돌나는 경우는 -p 옵션으로 회피합니다. 하이브의 경우 Hue 를 통해 직접 파일을 액세스하기 위해서 특정 경로를 볼륨으로 마운트하고 사용할 수 있어야 합니다
 * 아래의 명령에 따라 설정파일을 로컬에 복사합니다
 ```bash
 $ mkdir -p hive/conf
 $ mkdir -p hue/conf
-$ docker run --name hive_server -it dvoros/hive
+$ docker run --name hive_server -v `pwd`/hql:/data/hql -it dvoros/hive
 $ docker cp hive_server:/usr/local/hive/conf/hive-site.xml hive/conf
 $ docker run --name hue_server -p 8000:8888 -it gethue/hue
 $ docker cp hue_server:/usr/share/hue/desktop/conf/hue.ini hue/conf
@@ -144,5 +144,13 @@ load data local inpath '/tmp/input.txt' into table bar;
 select id, name from bar;
 ```
 
+### 2. 로컬에서 파케이 파일 읽어들이기
+```bash
+java -jar ./parquet-tools-<VERSION>.jar --help
+```
+
 ### 5. 참고링크
 * https://cwiki.apache.org/confluence/display/Hive/LanguageManual+DDL#LanguageManualDDL-CreateTable
+* https://github.com/apache/parquet-mr/tree/master/parquet-tools
+* https://github.com/Teradata/kylo/tree/master/samples/sample-data/parquet
+
