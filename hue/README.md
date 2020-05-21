@@ -176,7 +176,7 @@ networks:
     hue_network:
         external: true
 ```
-* 환경변수를 지정하여 bind volume 의 경우에도 전체경로를 docker-compose.yml 파일에 포함하지 않아도 됩니다
+* 환경변수를 지정하여 bind volume 의 경우에도 전체경로를 docker-compose.yml 파일에 포함하지 않아도 됩니다 (-d, --detach 옵션도 사용 가능합니다)
 ```bash
 export PROJECT_HOME=`pwd` ; docker-compose up
 ```
