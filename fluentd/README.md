@@ -187,3 +187,145 @@ docker run --name $role --network fluentnet1 -p 34224:24224 -p 34224:24224/udp -
 docker logs -f $role
 ```
 
+### 2-6. HTTP로 전송되는 데이터를 두번째 태그만을 필터하여 몽고디비로 저장합니다
+```yaml - broker
+<source>
+    @type http
+    port 8888
+    bind 0.0.0.0
+    body_size_limit 1m
+    keepalive_timeout 10s
+</source>
+
+<match debug.**>
+    @type stdout
+</match>
+
+<match test.**>
+    @type forward
+	<buffer time,tag>
+		@type memory
+		timekey 2s
+		timekey_wait 1s
+		flush_mode interval
+		flush_interval 1s
+	</buffer>
+    <server>
+        host day2_fluentd
+        port 24224
+        weight 100
+    </server>
+    <secondary>
+        @type secondary_file
+        directory /fluentd/target/ex5
+		basename dump.${chunk_id}
+    </secondary>
+</match>
+```
+
+```yaml - receiver
+<source>
+    @type forward
+    port 24224
+    bind 0.0.0.0
+</source>
+
+<match test.**>
+    @type mongo
+    host day2_mongo
+    port 27017
+    database fluentd
+    collection test
+    capped
+    capped_size 100m
+    <inject>
+        time_key time
+    </inject>
+    <buffer>
+        flush_interval 10s
+    </buffer>
+</match>
+```
+
+
+### 2-7. 5개의 더미 에이전트로부터 별도의 태그가 붙어서 전송되는 이벤트를 로컬 경로에 태그로 구분해 저장합니다
+```yaml
+<system>
+    log_level warn
+</system>
+
+<source>
+    @type dummy
+    tag test.korea
+    size 100
+    rate 1
+    auto_increment_key seq
+    dummy {"country":"korea"}
+</source>
+
+<source>
+    @type dummy
+    tag test.japan
+    size 30
+    rate 1
+    auto_increment_key seq
+    dummy {"country":"japan"}
+</source>
+
+<source>
+    @type dummy
+    tag test.china
+    size 100
+    rate 1
+    auto_increment_key seq
+    dummy {"country":"china"}
+</source>
+
+<source>
+    @type dummy
+    tag test.usa
+    size 40
+    rate 1
+    auto_increment_key seq
+    dummy {"country":"usa"}
+</source>
+
+<source>
+    @type dummy
+    tag test.france
+    size 15
+    rate 1
+    auto_increment_key seq
+    dummy {"country":"france"}
+</source>
+
+<label @FLUENT_LOG>
+    <match **>
+        @type stdout
+    </match>
+</label>
+
+# test prefix 를 제거하고 그대로 전달
+<match test.*>
+    @type route
+    remove_tag_prefix test
+    <route *>
+        copy
+    </route>
+</match>
+
+# %Y, %m, %d, %H, %M, %S: strptime placeholder 는 "time" chunk key 가 있어야만 합니다
+# 단, timekey 가 1d 미만인데 %H%M 가 없다면 오류가 발생합니다 - https://github.com/fluent/fluentd/issues/1986
+# 여기서 시간은 event-time 이 아니라 서버 시스템 타임입니다
+<match *>
+    @type file
+    path_suffix .json
+    path /fluentd/target/ex6/purchase/dt=%Y%m%d/country=${tag}/cellphone-%H%M
+
+    <buffer time,tag>
+        timekey         1m # chunks per 10 minutes
+        timekey_wait    9s # 30 seconds delay for flush
+        timekey_zone    Asia/Seoul
+    </buffer>
+</match>
+```
