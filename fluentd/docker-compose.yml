@@ -1,0 +1,13 @@
+version: "3"
+services:
+    fluentd:
+        image: fluentd:latest
+        volumes:
+            - $PROJECT_HOME/etc/fluent.conf:/fluentd/etc/fluent.conf
+            - $PROJECT_HOME/logs:/fluentd/log
+            - $PROJECT_HOME/source:/fluentd/source
+            - $PROJECT_HOME/target:/fluentd/target
+        ports:
+            - 8080:8080
+            - 24224:24224
+            - 24224:24224/udp
