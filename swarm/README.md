@@ -7,6 +7,7 @@
 ## 1. 레퍼런스
 * [도커/쿠버네티스를 활용한 컨테이너 개발 실전 입무](https://wikibook.co.kr/docker-kubernetes/)
 * [DockerCloud/HAProxy](https://hub.docker.com/r/dockercloud/haproxy)
+* [Practical Design Patterns in Docker Networking](https://www.slideshare.net/Docker/practical-design-patterns-in-docker-networking-81017903)
 
 
 ## 2. 도커 서비스를 통한 빌드 및 배포
