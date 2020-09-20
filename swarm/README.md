@@ -10,6 +10,8 @@
 * [Practical Design Patterns in Docker Networking](https://www.slideshare.net/Docker/practical-design-patterns-in-docker-networking-81017903)
 * [Administer and maintain a swarm of Docker Engines](https://docs.docker.com/engine/swarm/admin_guide/)
 * [Swarm mode overview](https://docs.docker.com/engine/swarm/)
+* [How nodes work](https://docs.docker.com/engine/swarm/how-swarm-mode-works/nodes/) 
+* [Docker Swarm의 고가용성](https://www.sauru.so/blog/high-availability-of-docker-swarm/)
 
 
 
@@ -576,7 +578,7 @@ docker service update \
 
 
 ### 7.2 스웜 매니저 장애 상황에 어떻게 동작하고 정상화 할 수 있는가?
-> [How nodes work](https://docs.docker.com/engine/swarm/how-swarm-mode-works/nodes/) 문서를 참고합니다
+> 독립적인 매니저 클러스터 구성을 하거나 역할이 혼합된 클러스터 구성도 가능합니다 - [Docker Swarm의 고가용성](https://www.sauru.so/blog/high-availability-of-docker-swarm/) 문서에 잘 정리되어 있습니다
 ![swarm-diagram](images/swarm-diagram.png)
 
 #### 7.2.1 Manager nodes
@@ -587,6 +589,15 @@ docker service update \
 * [Raft](http://thesecretlivesofdata.com/raft/) 알고리즘 구현을 통해 클러스터의 노드를 관리합니다
   - Single-Manager 구성은 테스트 용도로만 사용하며, Single-Manager Swarm 장애의 경우, 제공되는 서비스는 계속 유지될 수는 있지만, 스웜 클러스터는 운영되지 못 합니다
   - 고가용성(HA) 및 고내구성(Fault-tolerance)를 위해서는 반드시 홀수개로 구성된 다수의 매니저 그룹을 구성해야만 합니다. 
+  - 3개 매니저 구성은 1개의 매니저 실패까지 허용합니다 (5개는 2개) 즉 과반수 득표가 가능해야 리더 선출이 가능합니다
+#### 7.2.2 Worker nodes
+* 워커 노드들은 도커 엔진을 기동하는 인스턴스이며, Raft 분산 상태 관리, 스케줄링 결정 및 HTTP API 서빙에 참여하지 않습니다. (manager 역할과는 분리되어 있음)
+  - 매니저만 존재하는 스웜 클러스터 구성은 가능하지만, 매니저가 없는 스웜은 구성할 수 없습니다
+  - 즉, 디폴트 설정으로 모든 매니저들은 워커의 역할을 가질 수 있습니다. 즉, docker service create 명령이 가능합니다.
+  - 다만 매니저에게 워커로의 역할을 하지 않도록 하기 위해 docker node update 를 통해 Drain 모드로 전환힐 수 있습니다
+#### 7.2.3 Change roles
+* 모든 워커 노드들은 ```docker node promote``` 명령을 통해 manager 가 될 수 있고 반대로 ```docker node demote```를 통해 워커로만 동작할 수 있습니다
+
 
 
 
