@@ -1,0 +1,16 @@
+version: '3.7'
+services:
+  nginx:
+    image: nginx
+    ports:
+      - '80:80'
+    deploy:
+      mode: replicated
+      replicas: 3
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
+
