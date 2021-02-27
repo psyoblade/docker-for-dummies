@@ -12,10 +12,10 @@ function run_application() {
 }
 
 if [ "$1" == "sqoop" ]; then
-    "run sqoop batch task"
+    echo "run sqoop batch task"
     run_application $1 10
 elif [ "$1" == "fluentd" ]; then
-    "run fluentd daemon process"
+    echo "run fluentd daemon process"
     run_application $1 3600
 else
     echo "./aiffel.sh [sqoop|fluentd]"
