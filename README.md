@@ -192,4 +192,25 @@ bin/sqoop import -fs local -jt local -m 1 --driver com.mysql.jdbc.Driver --conne
 cat /tmp/sqoop/t1/part-m-00000
 ```
 
+### 12. 윈도우즈에서 도커 설치 및 환경구성
+> 윈도우 10인 경우만 동작하는 것을 확인했으며, 다른 윈도우 버전은 미확인 상태입니다.
+* 도커 및 관련 도구 설치 
+  - [MINGW64 설치](http://mingw-w64.org/doku.php/download)
+    * MingW 64 비트 버전을 설치하시고, SSH 터미널 역할로 사용하시면 됩니다.
+  - [도커 윈도우 버전 설치](https://docs.docker.com/docker-for-windows/install/)
+    * 윈도우 버전 설치 후 기본 설정 및 도커 계정 로그인(옵션) 하시고 윈도우 재시작합니다 
+  - [윈도우 Hyper-V 설정](https://comterman.tistory.com/1997)
+    * 블로그 글대로 CMOS 설정에서 Hyper-V 설정을 On 하셔야 합니다 
+    * 서버 재시작 후에 도커가 윈도우 트레이에 정상적으로 기동되면 준비는 완료 되었습니다.
+  - [도커 관련문서](https://docs.docker.com/)
+ 
+![윈도우즈 도커설치](images/windows4docker.png)
+
+### 13. 맥에서 도커 설치 및 환경구성
+> 맥의 경우는 특별한 설정이 필요 없으며 Docker for Mac 설치 후 iterm2 정도만 설치하시면 됩니다.
+  - [도커 설치](https://docs.docker.com/docker-for-mac/install/)
+    * [Get Stable](https://hub.docker.com/editions/community/docker-ce-desktop-mac/) 선택
+    * 초기 설정에서 Docker > Preferences > Resources > ADVANED 의 설정만 적당히 해주시면 됩니다
+  - [iTerm2 + zsh 설정](https://tutorialpost.apptilus.com/code/posts/tools/mac-cli-with-iterm2-zsh/)
+    * 필수는 아니지만 기본 패키지도 같이 설치되므로 따라하시면 이쁜 터미널을 쓰실 수 있습니다
 
