@@ -98,5 +98,9 @@ docker run -d -p 80:80 docker/getting-started
 
 ![install-docker](images/install-docker-2.png)
 
+> 정상 기동이 되었다면 `http://localhost` 에 접속하여 튜토리얼 페이지를 확인합니다
+
+![install-docker](images/install-docker-3.png)
+
 
 
