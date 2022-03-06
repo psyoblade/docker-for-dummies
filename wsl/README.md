@@ -96,7 +96,7 @@ git config --global user.email "<이메일주소>"
 docker run -d -p 80:80 docker/getting-started
 ```
 
-![install-docker](images/install-docker-3.png)
+![install-docker](images/install-docker-2.png)
 
 
 
