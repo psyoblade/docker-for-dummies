@@ -16,7 +16,7 @@ dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux 
 dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
 ```
 
-![install-wsl](images/intstall-wsl.png)
+![install-wsl](images/install-wsl.png)
 
 
 ## 3. 리눅스 설치 오류
@@ -89,7 +89,6 @@ git config --global user.email "<이메일주소>"
 > 컨테이너 기동을 위해 도커 데스크톱을 설치합니다 
 
 ![install-docker](images/install-docker-1.png)
-![install-docker](images/install-docker-2.png)
 
 > 정상적으로 설치된 것을 확인하기 위해서 기본 예제 테스트를 수행합니다
 
