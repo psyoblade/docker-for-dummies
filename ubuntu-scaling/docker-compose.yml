@@ -1,0 +1,13 @@
+version: "3"
+
+services:
+  ubuntu:
+    image: psyoblade/data-engineer-ubuntu:20.04
+    restart: always
+    tty: true
+    deploy:
+      mode: replicated
+      replicas: 3
+
+networks:
+  default:
