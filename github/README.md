@@ -6,14 +6,11 @@
 
 ## 2. 토큰 발급
 > 화면과 같이 `Settings > Developer settings > Personal access tokens > Generate new tokens` 통하여 토큰을 생성합니다
+> 단, 토큰의 범위(scopes)는 repo 만 선택합니다
 
-![token](images/1.settings.png)
-![token](images/2.dev-settings.png)
-![token](images/3.access-token.png)
-
-> 토큰의 범위(scopes)는 repo 만 선택합니다
-
-![token](images/4.gen-token.png)
+Settings | Developer Settings | Personal access tokens
+:-------------------------:|:-------------------------:|:-------------------------:
+<img src="images/1.settings.png" alt="drawing" width="300"/> | <img src="images/2.dev-settings.png" alt="drawing" width="300"/> | <img src="images/3.access-token.png" alt="drawing" width="600"/><img src="images/4.gen-token.png" alt="drawing" width="600"/>
 
 > 생성된 토큰은 최초 생성시에 한 번만 노출되므로 안전한 곳에 저장해 둡니다
 
