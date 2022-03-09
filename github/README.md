@@ -14,13 +14,12 @@ Settings | Developer Settings | Personal access tokens
 
 > 생성된 토큰은 최초 생성시에 한 번만 노출되므로 안전한 곳에 저장해 둡니다
 
-![token](images/5.copy-token.png)
-
+<img src="images/5.copy-token.png" alt="drawing" width="800"/>
 
 ## 3. 예제 레포지토리 생성
 > [Create new repository](https://github.com/new) 페이지에 접속하여 `ssm-seoul-tutorial` 레포지토리를 생성합니다
 
-![token](images/6.clone.png)
+<img src="images/6.clone.png" alt="drawing" width="400"/>
 
 > 생성된 레포지토리의 주소를 복사하여 터미널에서 코드를 클론 합니다
 
@@ -28,7 +27,7 @@ Settings | Developer Settings | Personal access tokens
 git clone https://github.com/<아이디>/ssm-seoul-tutorial.git
 ```
 
-![token](images/7.clone.png)
+<img src="images/7.clone.png" alt="drawing" width="800"/>
 
 > 해당 프로젝트에서 README.md 파일을 수정하고 코드를 서버로 업로드 합니다
 
@@ -38,7 +37,7 @@ git commit -am "[수정] README.md"
 git push
 ```
 
-![token](images/8.push.png)
+<img src="images/8.push.png" alt="drawing" width="800"/>
 
 > 여기에서 `Username` 에는 나의 `아이디`를 넣고, `Password` 에는 아까 생성한 `<토큰>`을 붙여 넣습니다 
 
