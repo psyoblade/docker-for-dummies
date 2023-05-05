@@ -21,12 +21,9 @@ dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /nores
 
 ## 3. 리눅스 설치 오류
 
-> WSL 설정이 되어있지 않은 경우에 아래와 같이 설치에 실패하므로, 변경 후 재시작이 필요합니다
+> WSL 설정이 되어있지 않은 경우에 아래와 같이 설치에 실패하므로, 변경 후 윈도우 재시작이 필요합니다
 
 ![error-ubuntu](images/error-ubuntu-1.png)
-![error-ubuntu](images/error-ubuntu-2.png)
-![error-ubuntu](images/error-ubuntu-3.png)
-![error-ubuntu](images/error-ubuntu-4.png)
 
 > 제대로 구성이 되었다면 아래와 같이 기본설정을 변경하고, 버전을 확인합니다
 
