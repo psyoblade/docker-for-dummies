@@ -32,8 +32,14 @@ git clone https://github.com/<아이디>/ssm-seoul-tutorial.git
 > 해당 프로젝트에서 README.md 파일을 수정하고 코드를 서버로 업로드 합니다
 
 ```bash
-echo "Hello world" > README.md
-git commit -am "[수정] README.md"
+# README.md 파일을 생성
+echo "ssm seoul tutorial" > README.md
+
+# 생성된 파일을 레포지토리에 추가 및 저장
+git add -A
+git commit -m "[수정] README.md"
+
+# 원격지 github.com 저장소로 전송
 git push
 ```
 
