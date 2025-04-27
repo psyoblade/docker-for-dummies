@@ -1,0 +1,31 @@
+services:
+  druid:
+    container_name: druid
+    image: psyoblade/data-engineer-druid:1.0
+    ports:
+      - "8888:8888"     # Druid Router Web Console (UI)
+      - "8081:8081"     # Coordinator
+      - "8082:8082"     # Overlord
+    expose:
+      - "8082"
+    environment:
+      - DRUID_JAVA_OPTS=-Xms1g -Xmx1g
+    restart: unless-stopped
+    volumes:
+      - ./druid/data/wordcount-v1-data.json:/opt/druid/quickstart/tutorial/wordcount-v1-data.json
+      - ./druid/data/wordcount-v1-index.json:/opt/druid/quickstart/tutorial/wordcount-v1-index.json
+    networks:
+      - druid-net
+  superset:
+    container_name: superset
+    image: local/superset:3.0.2
+    ports:
+      - "8088:8088"
+    depends_on:
+      - druid
+    networks:
+      - druid-net
+
+networks:
+  druid-net:
+    driver: bridge
